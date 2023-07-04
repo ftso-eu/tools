@@ -31,7 +31,7 @@ contracts=(
   "PriceSubmitter"
   "Supply"
   "ValidatorRewardManager"
-  "VoterWhitelister",
+  "VoterWhitelister"
   "VPContract"
   "WNat"
 )
