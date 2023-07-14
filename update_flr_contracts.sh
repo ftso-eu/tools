@@ -6,7 +6,7 @@ cd tmp-contracts || exit
 git fetch origin
 
 # FLARE
-git checkout flare_network_deployed_code
+git checkout coston2_network_deployed_code
 yarn && yarn c
 
 # Create directories if they don't exist
@@ -72,48 +72,4 @@ index_flr_file="$artifacts_dir_flr/typechain/index.ts"
 
 # Copy flare.json deployment file
 cp -f deployment/deploys/flare.json "$artifacts_dir_flr"
-
-# SONGBIRD
-git checkout songbird_network_deployed_code
-yarn && yarn c
-
-# Copy specified TypeScript declaration files and factories to src/artifacts/songbird/typechain
-for contract in "${contracts[@]}"; do
-  if [[ $contract != "index" ]]; then
-    if [[ $contract == "commons" ]]; then
-      cp -f "typechain/${contract}.ts" "$artifacts_dir_sgb/typechain"
-    else
-      cp -f "typechain/${contract}.d.ts" "$artifacts_dir_sgb/typechain"
-      cp -f "typechain/factories/${contract}__factory.ts" "$artifacts_dir_sgb/typechain/factories"
-    fi
-  fi
-done
-
-# Create the index.ts file in the songbird/typechain directory
-index_sgb_file="$artifacts_dir_sgb/typechain/index.ts"
-{
-  printf "// Factories\n"
-  for contract in "${contracts[@]}"; do
-    if [[ $contract != "index" ]]; then
-      if [[ $contract != "commons" ]]; then
-        printf "export { ${contract}__factory } from \"./factories/${contract}__factory\";\n"
-      fi
-    fi
-  done
-
-  printf "\n// Contracts\n"
-  for contract in "${contracts[@]}"; do
-    if [[ $contract != "index" ]]; then
-      if [[ $contract != "commons" ]]; then
-        printf "export type { ${contract} } from \"./${contract}\";\n"
-      fi
-    fi
-  done
-} > "$index_sgb_file"
-
-# Copy songbird.json deployment file
-cp -f deployment/deploys/songbird.json "$artifacts_dir_sgb"
-
-cd ..
-rm -rf tmp-contracts
 
