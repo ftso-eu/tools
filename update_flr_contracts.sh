@@ -6,7 +6,7 @@ cd tmp-contracts || exit
 git fetch origin
 
 # FLARE
-git checkout coston2_network_deployed_code
+git checkout flare_network_deployed_code
 yarn && yarn c
 
 # Create directories if they don't exist
